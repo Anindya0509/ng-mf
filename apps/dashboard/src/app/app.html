@@ -1,0 +1,16 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">📚 Library App</div>
+
+    <button class="navbar-toggle" (click)="toggleMenu()">
+      ☰
+    </button>
+
+    <ul [class.active]="menuOpen" class="navbar-links">
+      <li><a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
+      <li><a routerLink="/bookDetails" routerLinkActive="active-link">Book Details</a></li>
+      <li><a routerLink="/memberDetails" routerLinkActive="active-link">Member Details</a></li>
+    </ul>
+  </div>
+</nav>
+<router-outlet></router-outlet>
