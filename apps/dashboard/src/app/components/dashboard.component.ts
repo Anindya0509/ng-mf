@@ -21,6 +21,9 @@ export class DashboardComponent implements OnInit {
   constructor(private ds: DataService) {}
 
   ngOnInit() {
+    // Initialize signals here if not already initialized
+    this.ds.booksSignal.set(this.ds.loadBooksFromLocalStorage());
+    this.ds.membersSignal.set(this.ds.loadMembersFromLocalStorage());
     this.rowData = this.ds.getIssues()();
   }
 }

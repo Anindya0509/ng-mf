@@ -4,14 +4,15 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DataService {
-  private localStorageBooksKey = 'books_data'; // Key for storing books in localStorage
-  private localStorageMembersKey = 'members_data'; // Key for storing members in localStorage
+  public localStorageBooksKey = 'books_data'; // Key for storing books in localStorage
+  public localStorageMembersKey = 'members_data'; // Key for storing members in localStorage
 
   // Load data from localStorage or use default data if not found
-  private booksSignal = signal<Book[]>(this.loadBooksFromLocalStorage());
-  private membersSignal = signal<Member[]>(this.loadMembersFromLocalStorage());
+  public booksSignal = signal<Book[]>(this.loadBooksFromLocalStorage());
+  public membersSignal = signal<Member[]>(this.loadMembersFromLocalStorage());
 
-  private issuesSignal: Signal<Issue[]> = computed(() => {
+  // Computed signal for issues (when a book is issued to a member)
+  public issuesSignal: Signal<Issue[]> = computed(() => {
     const books = this.booksSignal();
     const members = this.membersSignal();
 
@@ -40,6 +41,11 @@ export class DataService {
       const members = this.membersSignal();
       this.saveMembersToLocalStorage(members);
     });
+
+    // Listen for changes in localStorage (across all windows/tabs)
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', this.handleLocalStorageChange.bind(this));
+    }
   }
 
   // Getters for books, members, and issues
@@ -161,6 +167,7 @@ export class DataService {
         const updatedBooks = [...books];
         updatedBooks[bookIndex] = updatedBook;
   
+        // Set updated values
         this.booksSignal.set(updatedBooks);
         this.membersSignal.set(updatedMembers);
       }
@@ -172,8 +179,8 @@ export class DataService {
     });
   }
 
-  // Private method to load books from localStorage
-  private loadBooksFromLocalStorage(): Book[] {
+  // public method to load books from localStorage
+  public loadBooksFromLocalStorage(): Book[] {
     const savedBooks = localStorage.getItem(this.localStorageBooksKey);
     return savedBooks ? JSON.parse(savedBooks) : [
       { id: 'b1', name: 'The Great Gatsby', author: 'F. Scott Fitzgerald', issued: false },
@@ -189,13 +196,13 @@ export class DataService {
     ];
   }
 
-  // Private method to save books to localStorage
-  private saveBooksToLocalStorage(books: Book[]): void {
+  // public method to save books to localStorage
+  public saveBooksToLocalStorage(books: Book[]): void {
     localStorage.setItem(this.localStorageBooksKey, JSON.stringify(books));
   }
 
-  // Private method to load members from localStorage
-  private loadMembersFromLocalStorage(): Member[] {
+  // public method to load members from localStorage
+  public loadMembersFromLocalStorage(): Member[] {
     const savedMembers = localStorage.getItem(this.localStorageMembersKey);
     return savedMembers ? JSON.parse(savedMembers) : [
       { id: 'm1', name: 'Alice Johnson', age: 28, contactNumber: '555-1234' },
@@ -211,8 +218,18 @@ export class DataService {
     ];
   }
 
-  // Private method to save members to localStorage
-  private saveMembersToLocalStorage(members: Member[]): void {
+  // public method to save members to localStorage
+  public saveMembersToLocalStorage(members: Member[]): void {
     localStorage.setItem(this.localStorageMembersKey, JSON.stringify(members));
+  }
+
+  // Handle localStorage changes across tabs or windows
+  public handleLocalStorageChange(event: StorageEvent): void {
+    if (event.key === this.localStorageBooksKey) {
+      this.booksSignal.set(this.loadBooksFromLocalStorage());
+    }
+    if (event.key === this.localStorageMembersKey) {
+      this.membersSignal.set(this.loadMembersFromLocalStorage());
+    }
   }
 }
