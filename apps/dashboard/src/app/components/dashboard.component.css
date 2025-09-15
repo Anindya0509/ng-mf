@@ -1,6 +1,35 @@
-.ag-theme-alpine-dark .ag-row:hover {
+.ag-theme-alpine-dark {
+    --ag-header-background-color: #2c3e50; /* Dark background for header */
+    --ag-header-foreground-color: #ecf0f1; /* Light color for header text */
+    --ag-row-hover-color: #4e5b6e; /* Darker hover color */
+    --ag-row-selected-color: #1abc9c; /* Highlight selected rows */
+    --ag-cell-background-color: #34495e; /* Darker cell background */
+    --ag-font-size: 14px;
+  }
+  
+  /* Hover effect when row is hovered */
+  .ag-theme-alpine-dark .ag-row:hover {
     background-color: #4e5b6e; /* Darker hover color */
     transition: background-color 0.3s ease, transform 0.3s ease;
     transform: scale(1.02); /* Slight scaling animation */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
   }
+  
+  /* Adjusting the issue/unissue button color scheme */
+  .ag-theme-alpine-dark .button {
+    cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    background-color: #1abc9c; /* Teal color for buttons */
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .ag-theme-alpine-dark .button:hover {
+    background-color: #16a085; /* Darker teal on hover */
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  

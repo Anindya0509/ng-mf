@@ -11,9 +11,29 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <button *ngIf="!isIssued" (click)="onIssueClick()">{{ issueLabel || 'Issue' }}</button>
-    <button *ngIf="isIssued" (click)="onUnissueClick()">{{ unissueLabel || 'Unissue' }}</button>
+    <button class="button" *ngIf="!isIssued" (click)="onIssueClick()">{{ issueLabel || 'Issue' }}</button>
+    <button class="button" *ngIf="isIssued" (click)="onUnissueClick()">{{ unissueLabel || 'Unissue' }}</button>
+  `,
+  styles: [
+    `
+    .button {
+      cursor: pointer;
+      padding: 4px 8px; /* Adjust padding as needed */
+      border: none;
+      background-color:rgb(64, 79, 95); /* Primary color for button */
+      color: white;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    .button:hover {
+      background-color:rgb(116, 219, 247); /* Light gray on hover */
+      transform: scale(1.02); /* Slightly enlarge on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+    }
   `
+]
 })
 export class IssueButtonRendererComponent implements ICellRendererAngularComp {
   params: any;

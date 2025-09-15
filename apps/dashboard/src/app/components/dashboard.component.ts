@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnDestroy, OnInit } from '@angular/core';
 import { Issue, DataService } from '@ng-mf/shared';
 import { ColDef } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
@@ -6,6 +6,7 @@ import { AgGridModule } from 'ag-grid-angular';
 @Component({
   selector: 'ng-mf-dashboard',
   imports: [AgGridModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })

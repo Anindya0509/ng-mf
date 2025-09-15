@@ -42,7 +42,43 @@ export interface IssueDialogData {
       <button mat-button (click)="cancel()">Cancel</button>
     </mat-dialog-actions>
   `,
-  styles: [/* your styles here */]
+  styles: [
+    `
+      /* Reset default padding and margin for mat-list */
+      mat-list {
+        padding: 0;
+        margin: 0;
+      }
+
+      /* Ensuring uniform styling for all mat-list-item elements */
+      .choice-item {
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+        padding: 10px 16px; /* Consistent padding for all items */
+        margin: 0; /* No margin between items */
+        display: flex;
+        align-items: center;
+        height: 48px; /* Ensure consistent height for all items */
+      }
+
+      /* Apply hover effect */
+      .choice-item:hover {
+        background-color: #f1f1f1; /* Light gray on hover */
+        transform: scale(1.02); /* Slightly enlarge on hover */
+      }
+
+      /* Optional: Additional styling for dialog title */
+      .dialog-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .dialog-actions {
+        padding-top: 10px;
+      }
+    `
+  ]
 })
 export class IssueSelectorDialogComponent {
   private dialogRef = inject(MatDialogRef<IssueSelectorDialogComponent>);
